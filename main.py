@@ -18,7 +18,7 @@ elif DATABASE_URL.startswith("postgres://"):
     # Corrección necesaria para Render
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -192,4 +192,5 @@ def update_personal(update: PersonalUpdate, db: Session = Depends(get_db)):
     if update.field == 'cel': persona.cel = update.value
     
     db.commit()
+
     return {"status": "ok"}
